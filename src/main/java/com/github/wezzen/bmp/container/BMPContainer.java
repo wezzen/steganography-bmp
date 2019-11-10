@@ -20,6 +20,22 @@ public class BMPContainer {
         }
     }
 
+    public BMPHeader getHeader() {
+        return header;
+    }
+
+    public BMPInfoHeader getInfoHeader() {
+        return infoHeader;
+    }
+
+    public long getQuadSize() {
+        return quadSize;
+    }
+
+    public List<RGBQuad> getQuad() {
+        return quad;
+    }
+
     public BMPContainer() {
         header = new BMPHeader();
         infoHeader = new BMPInfoHeader();
