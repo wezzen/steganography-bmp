@@ -88,6 +88,7 @@ public class BMPInfoHeader implements BMPReader{
         }
     }
 
+
     private void readClrUser() throws IOException  {
         if (stream.read(clrUsed.getValue()) != clrUsed.getType().getBytes()) {
             throw new IOException("Invalid read");
