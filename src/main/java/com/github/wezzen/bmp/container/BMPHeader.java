@@ -7,15 +7,37 @@ import com.github.wezzen.bmp.container.types.Types;
 
 import java.io.*;
 
-public class BMPHeader implements BMPReader, BMPWriter {
+public class BMPHeader extends BMP implements BMPReader, BMPWriter {
     private Type type = new Type(Types.WORD);
     private Type size = new Type(Types.DWORD);
     private Type reserved1 = new Type(Types.WORD);
     private Type reserved2 = new Type(Types.WORD);
     private Type offsetBits = new Type(Types.DWORD);
 
-    private InputStream inputStream = null;
-    private OutputStream outputStream = null;
+    public void setType(final Type type) throws InvalidObjectException{
+        checkVariable(type, Types.WORD);
+        this.type = type;
+    }
+
+    public void setSize(final Type size) throws InvalidObjectException {
+        checkVariable(size, Types.DWORD);
+        this.size = size;
+    }
+
+    public void setReserved1(final Type reserved1) throws InvalidObjectException {
+        checkVariable(reserved1, Types.WORD);
+        this.reserved1 = reserved1;
+    }
+
+    public void setReserved2(final Type reserved2) throws InvalidObjectException {
+        checkVariable(reserved2, Types.WORD);
+        this.reserved2 = reserved2;
+    }
+
+    public void setOffsetBits(final Type offsetBits) throws InvalidObjectException {
+        checkVariable(offsetBits, Types.DWORD);
+        this.offsetBits = offsetBits;
+    }
 
     public Type getType() {
         return type;

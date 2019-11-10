@@ -7,15 +7,14 @@ import com.github.wezzen.bmp.container.types.Types;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
 import java.io.OutputStream;
 
-public class RGBQuad implements BMPReader, BMPWriter {
+public class RGBQuad extends BMP implements BMPReader, BMPWriter {
     private Type blue = new Type(Types.BYTE);
     private Type green = new Type(Types.BYTE);
     private Type red = new Type(Types.BYTE);
     private Type reserved = new Type(Types.BYTE);
-    private InputStream inputStream = null;
-    private OutputStream outputStream = null;
 
     public Type getBlue() {
         return blue;
@@ -31,6 +30,26 @@ public class RGBQuad implements BMPReader, BMPWriter {
 
     public Type getReserved() {
         return reserved;
+    }
+
+    public void setBlue(final Type blue) throws InvalidObjectException {
+        checkVariable(blue, Types.BYTE);
+        this.blue = blue;
+    }
+
+    public void setGreen(final Type green) throws InvalidObjectException {
+        checkVariable(green, Types.BYTE);
+        this.green = green;
+    }
+
+    public void setRed(final Type red) throws InvalidObjectException {
+        checkVariable(red, Types.BYTE);
+        this.red = red;
+    }
+
+    public void setReserved(final Type reserved) throws InvalidObjectException {
+        checkVariable(reserved, Types.BYTE);
+        this.reserved = reserved;
     }
 
     private void readBlue() throws IOException {

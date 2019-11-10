@@ -6,9 +6,10 @@ import com.github.wezzen.bmp.container.types.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InvalidObjectException;
 import java.io.OutputStream;
 
-public class BMPInfoHeader implements BMPReader, BMPWriter {
+public class BMPInfoHeader extends BMP implements BMPReader, BMPWriter {
     private Type size = new Type(Types.DWORD);
     private Type width = new Type(Types.LONG);
     private Type height = new Type(Types.LONG);
@@ -20,8 +21,61 @@ public class BMPInfoHeader implements BMPReader, BMPWriter {
     private Type yPelsPerMeter = new Type(Types.LONG);
     private Type clrUsed = new Type(Types.DWORD);
     private Type clrImportant = new Type(Types.DWORD);
-    private InputStream inputStream = null;
-    private OutputStream outputStream = null;
+
+    public void setSize(final Type size) throws InvalidObjectException {
+        checkVariable(size, Types.DWORD);
+        this.size = size;
+    }
+
+    public void setWidth(final Type width) throws InvalidObjectException {
+        checkVariable(width, Types.LONG);
+        this.width = width;
+    }
+
+    public void setHeight(final Type height) throws InvalidObjectException {
+        checkVariable(height, Types.LONG);
+        this.height = height;
+    }
+
+    public void setPlanes(final Type planes) throws InvalidObjectException {
+        checkVariable(planes, Types.WORD);
+        this.planes = planes;
+    }
+
+    public void setBitCount(final Type bitCount) throws InvalidObjectException {
+        checkVariable(bitCount, Types.WORD);
+        this.bitCount = bitCount;
+    }
+
+    public void setCompression(final Type compression) throws InvalidObjectException {
+        checkVariable(compression, Types.DWORD);
+        this.compression = compression;
+    }
+
+    public void setSizeImage(final Type sizeImage) throws InvalidObjectException {
+        checkVariable(sizeImage, Types.DWORD);
+        this.sizeImage = sizeImage;
+    }
+
+    public void setxPelsPerMeter(final Type xPelsPerMeter) throws InvalidObjectException {
+        checkVariable(xPelsPerMeter, Types.LONG);
+        this.xPelsPerMeter = xPelsPerMeter;
+    }
+
+    public void setyPelsPerMeter(final Type yPelsPerMeter) throws InvalidObjectException {
+        checkVariable(yPelsPerMeter, Types.LONG);
+        this.yPelsPerMeter = yPelsPerMeter;
+    }
+
+    public void setClrUsed(final Type clrUsed) throws InvalidObjectException {
+        checkVariable(clrUsed, Types.DWORD);
+        this.clrUsed = clrUsed;
+    }
+
+    public void setClrImportant(final Type clrImportant) throws InvalidObjectException {
+        checkVariable(clrImportant, Types.DWORD);
+        this.clrImportant = clrImportant;
+    }
 
     public Type getSize() {
         return size;

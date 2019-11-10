@@ -1,5 +1,7 @@
 package com.github.wezzen.bmp.container.types;
 
+import java.io.InvalidObjectException;
+
 public class Type {
     private byte[] bytes;
     private final Types type;
