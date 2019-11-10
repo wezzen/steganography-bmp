@@ -10,6 +10,7 @@ public class Reader {
     private final String fileName;
     private final BMPContainer container;
     private final File file;
+    private InputStream stream = null;
 
     private void checkFile(final String fileName) throws FileNotFoundException {
         if (fileName == null) {
@@ -28,6 +29,15 @@ public class Reader {
     }
 
     public void readFile() throws IOException {
-        container.readFile(new FileInputStream(file));
+        stream = new FileInputStream(file);
+        container.readFile(stream);
+    }
+
+    public InputStream getStream() {
+        return stream;
+    }
+
+    public BMPContainer getContainer() {
+        return container;
     }
 }

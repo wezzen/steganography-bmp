@@ -1,11 +1,14 @@
 package com.github.wezzen.bmp.container;
 
+import com.github.wezzen.bmp.container.interfaces.BMPReader;
+import com.github.wezzen.bmp.container.interfaces.BMPWriter;
 import com.github.wezzen.bmp.container.types.*;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
-public class BMPInfoHeader implements BMPReader{
+public class BMPInfoHeader implements BMPReader, BMPWriter {
     private Type size = new Type(Types.DWORD);
     private Type width = new Type(Types.LONG);
     private Type height = new Type(Types.LONG);
@@ -17,7 +20,8 @@ public class BMPInfoHeader implements BMPReader{
     private Type yPelsPerMeter = new Type(Types.LONG);
     private Type clrUsed = new Type(Types.DWORD);
     private Type clrImportant = new Type(Types.DWORD);
-    private InputStream stream = null;
+    private InputStream inputStream = null;
+    private OutputStream outputStream = null;
 
     public Type getSize() {
         return size;
@@ -68,7 +72,7 @@ public class BMPInfoHeader implements BMPReader{
         if (stream == null) {
             throw new NullPointerException("stream is null.");
         }
-        this.stream = stream;
+        this.inputStream = stream;
         readSize();
         readWidth();
         readHeight();
@@ -83,69 +87,132 @@ public class BMPInfoHeader implements BMPReader{
     }
 
     private void readClrImportant() throws IOException {
-        if (stream.read(clrImportant.getValue()) != clrImportant.getType().getBytes()) {
+        if (inputStream.read(clrImportant.getValue()) != clrImportant.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
 
     private void readClrUser() throws IOException  {
-        if (stream.read(clrUsed.getValue()) != clrUsed.getType().getBytes()) {
+        if (inputStream.read(clrUsed.getValue()) != clrUsed.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readYPelsPerMeter() throws IOException  {
-        if (stream.read(yPelsPerMeter.getValue()) != yPelsPerMeter.getType().getBytes()) {
+        if (inputStream.read(yPelsPerMeter.getValue()) != yPelsPerMeter.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readXPelsPerMeter() throws IOException  {
-        if (stream.read(xPelsPerMeter.getValue()) != xPelsPerMeter.getType().getBytes()) {
+        if (inputStream.read(xPelsPerMeter.getValue()) != xPelsPerMeter.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readSizeImage() throws IOException  {
-        if (stream.read(sizeImage.getValue()) != sizeImage.getType().getBytes()) {
+        if (inputStream.read(sizeImage.getValue()) != sizeImage.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readCompression() throws IOException  {
-        if (stream.read(compression.getValue()) != compression.getType().getBytes()) {
+        if (inputStream.read(compression.getValue()) != compression.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readBitCount() throws IOException  {
-        if (stream.read(bitCount.getValue()) != bitCount.getType().getBytes()) {
+        if (inputStream.read(bitCount.getValue()) != bitCount.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readPlanes() throws IOException  {
-        if (stream.read(planes.getValue()) != planes.getType().getBytes()) {
+        if (inputStream.read(planes.getValue()) != planes.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readHeight() throws IOException  {
-        if (stream.read(height.getValue()) != height.getType().getBytes()) {
+        if (inputStream.read(height.getValue()) != height.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readWidth() throws IOException  {
-        if (stream.read(width.getValue()) != width.getType().getBytes()) {
+        if (inputStream.read(width.getValue()) != width.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
     }
 
     private void readSize() throws IOException  {
-        if (stream.read(size.getValue()) != size.getType().getBytes()) {
+        if (inputStream.read(size.getValue()) != size.getType().getBytes()) {
             throw new IOException("Invalid read");
         }
+    }
+
+    @Override
+    public void write(final OutputStream stream) throws IOException {
+        if (stream == null) {
+            throw new NullPointerException("stream is null.");
+        }
+        this.outputStream = stream;
+        writeSize();
+        writeWidth();
+        writeHeight();
+        writePlanes();
+        writeBitCount();
+        writeCompression();
+        writeSizeImage();
+        writeXPelsPerMeter();
+        writeYPelsPerMeter();
+        writeClrUser();
+        writeClrImportant();
+    }
+
+    private void writeClrImportant() throws IOException {
+        outputStream.write(clrImportant.getValue());
+    }
+
+    private void writeClrUser() throws IOException {
+        outputStream.write(clrUsed.getValue());
+    }
+
+    private void writeYPelsPerMeter() throws IOException {
+        outputStream.write(yPelsPerMeter.getValue());
+    }
+
+    private void writeXPelsPerMeter() throws IOException {
+        outputStream.write(xPelsPerMeter.getValue());
+    }
+
+    private void writeSizeImage() throws IOException {
+        outputStream.write(sizeImage.getValue());
+    }
+
+    private void writeCompression() throws IOException {
+        outputStream.write(compression.getValue());
+    }
+
+    private void writeBitCount() throws IOException {
+        outputStream.write(bitCount.getValue());
+    }
+
+    private void writePlanes() throws IOException {
+        outputStream.write(planes.getValue());
+    }
+
+    private void writeHeight() throws IOException {
+        outputStream.write(height.getValue());
+    }
+
+    private void writeWidth() throws IOException {
+        outputStream.write(width.getValue());
+    }
+
+    private void writeSize() throws IOException {
+        outputStream.write(size.getValue());
     }
 }

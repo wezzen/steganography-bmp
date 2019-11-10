@@ -1,4 +1,4 @@
-package com.github.wezzen.bmp.container;
+package com.github.wezzen.bmp.container.interfaces;
 
 import java.io.IOException;
 import java.io.InputStream;

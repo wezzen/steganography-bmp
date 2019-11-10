@@ -2,9 +2,7 @@ package com.github.wezzen.bmp.container;
 
 import com.github.wezzen.convert.Convert;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InvalidObjectException;
+import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,6 +10,7 @@ public class BMPContainer {
     private BMPHeader header;
     private BMPInfoHeader infoHeader;
     private List<RGBQuad> quad;
+    private long quadSize;
 
     private void checkBMPFile() throws InvalidObjectException {
         final byte first = header.getType().getValue()[0]; //B
@@ -27,15 +26,24 @@ public class BMPContainer {
         quad = new LinkedList<>();
     }
 
-    public void readFile(final FileInputStream stream) throws IOException {
+    public void readFile(final InputStream stream) throws IOException {
         header.read(stream);
         checkBMPFile();
         infoHeader.read(stream);
-        final long size = Convert.readInt(infoHeader.getSizeImage().getValue()) / 4;
-        for (int i = 0; i < size; i++) {
+        quadSize = Convert.readInt(infoHeader.getSizeImage().getValue()) / 4;
+        for (int i = 0; i < quadSize; i++) {
             final RGBQuad rgbQuad = new RGBQuad();
             rgbQuad.read(stream);
             quad.add(rgbQuad);
+        }
+    }
+
+    public void writeFile(final OutputStream stream) throws IOException {
+        checkBMPFile();
+        header.write(stream);
+        infoHeader.write(stream);
+        for (RGBQuad elem : quad) {
+            elem.write(stream);
         }
     }
 

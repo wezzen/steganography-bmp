@@ -1,5 +1,6 @@
 package com.github.wezzen.bmp.container;
 
+import com.github.wezzen.bmp.Reader;
 import org.junit.BeforeClass;
 import org.junit.jupiter.api.Test;
 
@@ -17,15 +18,15 @@ class BMPContainerTest {
 
     @Test
     void readFileTest() throws IOException {
-        final FileInputStream stream = new FileInputStream(file);
-        container.readFile(stream);
-        assertEquals(-1, stream.read());
+        Reader reader = new Reader(FILENAME);
+        reader.readFile();
+        assertEquals(-1, reader.getStream().read());
     }
 
     @Test
     void readFileTestException() {
-        assertThrows(IOException.class, () ->
-           container.readFile(new FileInputStream(wrongFile))
-        );
+        assertThrows(FileNotFoundException.class, () -> {
+           Reader reader = new Reader(WRONG_FILENAME);
+        });
     }
 }
